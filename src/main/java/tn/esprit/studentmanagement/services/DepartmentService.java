@@ -32,4 +32,7 @@ public class DepartmentService implements IDepartmentService {
     public void deleteDepartment(Long idDepartment) {
 departmentRepository.deleteById(idDepartment);
     }
+    public void showMessage() {
+        System.out.println("Hello from Department Service !");
+    }
 }
