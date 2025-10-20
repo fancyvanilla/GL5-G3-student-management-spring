@@ -12,7 +12,7 @@ import tn.esprit.studentmanagement.repositories.StudentRepository;
 import tn.esprit.studentmanagement.services.StudentService;
 import tn.esprit.studentmanagement.entities.Student;
 
-
+import java.time.LocalDate;
 import java.util.*;
 
 class StudentServiceTest {
@@ -30,15 +30,18 @@ class StudentServiceTest {
     @Test
 void testGetAllStudents() {
     List<Student> students = Arrays.asList(
-        new Student(1L, "Alice"),
-        new Student(2L, "Bob")
+       new Student(1L, "John", "Doe", "john@example.com", "12345678",
+                         LocalDate.now(), "Tunis", null, new ArrayList<>()),
+       new Student(2L, "Jane", "Smith", "jane@example.com", "87654321",
+                         LocalDate.now(), "Sousse", null, new ArrayList<>())
     );
 
     when(studentRepository.findAll()).thenReturn(students);
 
     List<Student> result = studentService.getAllStudents();
     assertEquals(2, result.size());
-    assertEquals("Alice", result.get(0).getFirstName());
+    assertEquals("John", result.get(0).getFirstName());
+    assertEquals("Jane", result.get(1).getFirstName());
 
     verify(studentRepository, times(1)).findAll();
 }
