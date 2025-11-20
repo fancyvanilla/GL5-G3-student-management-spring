@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-management
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: student-management
+  template:
+    metadata:
+      labels:
+        app: student-management
+    spec:
+      initContainers:
+        - name: wait-for-mysql
+          image: busybox
+          command:
+            - sh
+            - -c
+            - |
+              echo "Waiting for MySQL..."
+              until nc -z my-mysql 3306; do
+                echo "MySQL is unavailable - sleeping"
+                sleep 2
+              done
+              echo "MySQL is up - continuing"
+      containers:
+        - name: student-management
+          image: haithemfarjallah/spring-project:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8089
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://my-mysql:3306/studentdb?createDatabaseIfNotExist=true
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: root123
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: student-management-service
+spec:
+  selector:
+    app: student-management
+  ports:
+    - protocol: TCP
+      port: 8089
+      targetPort: 8089
+  type: LoadBalancer

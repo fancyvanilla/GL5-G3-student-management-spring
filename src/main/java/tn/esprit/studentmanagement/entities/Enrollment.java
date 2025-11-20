@@ -1,5 +1,6 @@
 package tn.esprit.studentmanagement.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,9 +22,11 @@ public class Enrollment {
     private Status status;
 
     @ManyToOne
+    @JsonBackReference("student-enrollments")
     private Student student;
 
     @ManyToOne
+    @JsonBackReference("course-enrollments")
     private Course course;
 
 

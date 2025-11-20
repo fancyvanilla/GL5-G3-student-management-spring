@@ -1,5 +1,6 @@
 package tn.esprit.studentmanagement.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,6 +22,7 @@ public class Course {
     private String description;
 
     @OneToMany(mappedBy = "course")
+    @JsonManagedReference("course-enrollments")
     private List<Enrollment> enrollments;
 
 }

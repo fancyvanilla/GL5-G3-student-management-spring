@@ -1,6 +1,7 @@
 package tn.esprit.studentmanagement.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.studentmanagement.entities.Enrollment;
 import tn.esprit.studentmanagement.services.IEnrollment;
@@ -8,11 +9,17 @@ import tn.esprit.studentmanagement.services.IEnrollment;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Enrollment")
+@RequestMapping("/enrollment")
 @CrossOrigin(origins = "http://localhost:4200")
 @AllArgsConstructor
 public class EnrollmentController {
     IEnrollment enrollmentService;
+
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("Project is healthy");
+    }
+
     @GetMapping("/getAllEnrollment")
     public List<Enrollment> getAllEnrollment() { return enrollmentService.getAllEnrollments(); }
 
