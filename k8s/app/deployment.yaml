@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-management
+  namespace: student-management
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: student-management
+  template:
+    metadata:
+      labels:
+        app: student-management
+    spec:
+      containers:
+        - name: student-management
+          image: fancycoder21/student-management:latest
+          ports:
+            - containerPort: 8089
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "prod"
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:mysql://mysql:3306/studentdb"
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-credentials
+                  key: password
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "1Gi"
+              cpu: "500m"
