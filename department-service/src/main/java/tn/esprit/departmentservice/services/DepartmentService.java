@@ -1,5 +1,4 @@
 package tn.esprit.departmentservice.services;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.departmentservice.entities.Department;
@@ -19,7 +18,8 @@ public class DepartmentService implements IDepartmentService {
     }
 
     @Override
-    public Department getDepartmentById(Long idDepartment) {
+    public Department getDepartmentById(Long idDepartment) throws InterruptedException {
+//        Thread.sleep(1500);
         return departmentRepository.findById(idDepartment).orElse(null);
     }
 

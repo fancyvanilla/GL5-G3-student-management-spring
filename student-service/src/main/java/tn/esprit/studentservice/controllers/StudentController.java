@@ -1,7 +1,9 @@
 package tn.esprit.studentservice.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.studentservice.entities.DepartmentResponse;
 import tn.esprit.studentservice.entities.Student;
 import tn.esprit.studentservice.services.IStudentService;
 
@@ -21,12 +23,17 @@ IStudentService studentService;
     public Student getStudent(@PathVariable Long id) { return studentService.getStudentById(id); }
 
     @PostMapping("/createStudent")
-    public Optional<Student> createStudent(@RequestBody Student student) {
-        return studentService.saveStudent(student);
+    public ResponseEntity<Optional<Student>> createStudent(@RequestBody Student student) {
+        DepartmentResponse st= studentService.saveStudent(student);
+       if (st.getDepartment()==null){
+           if(st.isServiceAvailable()) return ResponseEntity.status(404).body(null);
+           return ResponseEntity.status(503).body(null);
+       }
+       return ResponseEntity.status(202).body(st.getDepartment());
     }
     @PutMapping("/updateStudent")
     public Optional<Student> updateStudent(@RequestBody Student student) {
-        return studentService.saveStudent(student);
+        return studentService.saveStudent(student).getDepartment();
     }
 
     @DeleteMapping("/deleteStudent/{id}")

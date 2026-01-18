@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import tn.esprit.studentservice.model.Department;
 
-@FeignClient(name = "DEPARTMENT-MICROSERVICE-APP")
+@FeignClient(name = "DEPARTMENT-SERVICE")
 public interface DepartmentClient {
     @GetMapping("/departments/getDepartment/{id}")
     Department getDepartmentById(@PathVariable("id") Long id);

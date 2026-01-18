@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IDepartmentService {
     public List<Department> getAllDepartments();
-    public Department getDepartmentById(Long idDepartment);
+    public Department getDepartmentById(Long idDepartment) throws InterruptedException;
     public Department saveDepartment(Department department);
     public void deleteDepartment(Long idDepartment);
 }
