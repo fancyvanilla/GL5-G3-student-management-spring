@@ -1,3 +1,4 @@
+/*
 package org.microservices.enrollment.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
@@ -21,3 +22,4 @@ public class SwaggerConfig {
                         .description("API documentation for the Enrollment microservice"));
     }
 }
+*/

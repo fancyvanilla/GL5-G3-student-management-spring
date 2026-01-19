@@ -15,7 +15,7 @@ import java.util.List;
 public class EnrollmentService implements IEnrollment {
     @Autowired
     EnrollmentRepository enrollmentRepository;
-    @Autowired
+    @Autowired(required = false)
     StudentClient studentClient;
 
     @Override
@@ -39,8 +39,14 @@ public class EnrollmentService implements IEnrollment {
             throw new RuntimeException("Simulated failure");
         }
 
-        StudentSummaryDto student =
-                studentClient.getStudentSummary(enrollment.getStudent());
+        StudentSummaryDto student = null;
+        if (studentClient != null) {
+            try {
+                student = studentClient.getStudentSummary(enrollment.getStudent());
+            } catch (Exception e) {
+                log.warn("Failed to fetch student summary", e);
+            }
+        }
 
         return mapToResponse(enrollment, student);
     }

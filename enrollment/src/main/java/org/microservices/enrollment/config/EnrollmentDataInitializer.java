@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.List;
 
-@Component
+// @Component  // Disabled to prevent startup issues
 @Order(2)
 @RequiredArgsConstructor
 public class EnrollmentDataInitializer implements CommandLineRunner {
